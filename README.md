@@ -8,7 +8,14 @@
 
 ## 安裝
 
-先 clone 本 repository 並進入目錄；GitHub URL 由儲存庫建立後提供。已有相同系統環境的電腦執行一行：
+先取得程式並進入目錄（目前儲存庫為私有，需具備存取權限）：
+
+```bash
+git clone https://github.com/cocobird231/hermes-plugin-isaacsim-rviz2.git
+cd hermes-plugin-isaacsim-rviz2
+```
+
+已有相同系統環境的電腦執行一行：
 
 ```bash
 bash install.sh

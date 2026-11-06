@@ -1,5 +1,5 @@
 name: isaac-sim
-version: 0.8.0-dev
+version: 0.8.0
 description: >-
   Isaac Sim lifecycle, USD scenes, managed screenshots, occupancy-map and generic
   articulated-robot URDF exports, plus the simulator-side RV1 ROS adapter.

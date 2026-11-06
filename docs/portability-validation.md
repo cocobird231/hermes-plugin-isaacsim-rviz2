@@ -37,7 +37,14 @@
 
 上述導航使用簡化靜態地面測試 fixture，**不是完整公館路網的新驗收**。另已直接開啟原公館 USDZ，核對 Z-up、meter 與原碰撞 mesh；未在本次重做全圖長距離錄影。
 
-受管 Isaac 已回報 closed／close succeeded 且程序退出；兩個隔離 bridge 已停止，原手動 Isaac 仍在。Kit 關閉期間出現既有 menu teardown 訊息，未使用強制終止。本機／測試主機共1,460個交付檔案已逐一核對SHA-256一致。截圖有其他視窗遮擋，未將它當成完整車體可視驗收；導航結果依真實位姿與速度回授判定。
+受管 Isaac 已回報 closed／close succeeded 且程序退出；兩個隔離 bridge 已停止，原手動 Isaac 仍在。Kit 關閉期間出現既有 menu teardown 訊息，未使用強制終止。原交付共 1,460 個檔案（公開套件 99 個、另外保存的私有資料 1,361 個），本機／測試主機已逐一核對 SHA-256 一致；此數量不是本儲存庫的檔案數。截圖有其他視窗遮擋，未將它當成完整車體可視驗收；導航結果依真實位姿與速度回授判定。
+
+## v0.1.0 PR 交付複驗
+
+- 將獨立套件的 99 個受管檔案送至指定 SSH 測試主機的新暫存目錄，未更新正式安裝或啟動模擬。
+- `python3 -m pytest -q tests/test_installation.py tests/test_portable_scripts.py`：**40 passed**（安裝／設定 21 案、腳本 19 案）；Python 編譯及四份 shell 腳本語法檢查通過。
+- 此批只有版本與文件變動；生產程式、腳本與控制參數沿用先前實測內容。49 份 Graphify 來源與獨立套件提交 `862a001` 的 SHA-256 相符。
+- 未在本次 PR 整理階段重跑 435 個 plugin 案例或 Isaac／Nav2 實機導航；相關結果為上述開發驗收紀錄。
 
 ## 適用限制
 
@@ -45,4 +52,4 @@
 - 匯出 worker 沿用既有 `isolated_worker_process_exit` 策略；結果已驗證且 exit 0，不代表 Isaac Kit 原生 teardown 問題已修復。
 - RV1 原始模型可能有外部材質依賴；URDF mesh URI 為該次主機輸出位置，搬移產物後須重新匯出／適配。
 - 本套件保留單一 robot profile、模擬真值定位與靜態障礙範圍；未增加 AMCL、動態避障或實車驗收。
-- 本次尚未建立或發布 GitHub repository；使用者可將此目錄單獨初始化為公開 repository。完整原始證據與資產存於另外的 private-data，不隨公開套件發布。
+- 交付儲存庫為 [hermes-plugin-isaacsim-rviz2](https://github.com/cocobird231/hermes-plugin-isaacsim-rviz2)，目前為私有，需存取權限；程式與資產的分離設計保持不變。完整原始證據與資產存於另外的 private-data，不隨套件發布。

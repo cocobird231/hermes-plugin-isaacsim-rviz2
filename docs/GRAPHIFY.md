@@ -5,7 +5,7 @@
 ## 來源與範圍
 
 - 建立日期：2026-11-06，使用 Graphify 0.9.61，在本機執行 AST 抽取與圖分析。
-- 索引來源提交：`86a8ed07a012ee64aeff4bf19ff92cded9c31ab9`，分支 `coco-codex/portable-hermes-plugins`。索引最初建立於工作樹，提交後已逐一核對49份來源與此提交相同；後續純文件更新不改變此AST快照。
+- 索引來源：最初建於私有開發工作區；獨立套件對應提交為 `862a001`，分支 `coco-codex/portable-hermes-plugins`。49 份來源與該提交逐一核對相同；後續文件與版本中繼資料更新不改變此 AST 快照，無須取得私有開發歷史。
 - 來源清單 SHA-256：`f8b6e0a03d02bfd52f22a0357a217e04cf30bcb6735e98c7e01d15358c6cca30`。
 - 實際抽取 **48 個生產 Python 檔案**，另記錄 `configs/rv1_max_speed_profile.json` 的來源 hash；該 JSON 未產生符號節點。
 - Python 範圍包括根目錄設定模組、兩個 plugin 的程式與可重用 scripts；排除所有 `tests/`、文件語意、YAML、shell、相容性 client JSON，以及任何私有資產、實驗與執行結果。
