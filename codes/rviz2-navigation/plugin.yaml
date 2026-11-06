@@ -1,5 +1,5 @@
 name: rviz2-navigation
-version: 0.2.0-dev
+version: 0.2.0
 description: >-
   Independent RViz2 and Nav2 management with a validated robot profile.
   Configure URDF, map, frames, topics, footprint and the robot's own Nav2 parameters.

@@ -24,6 +24,6 @@
   - [x] S3.01：lint／compile／unit／真實整合驗證並保存私有證據。
   - [x] S3.02：整理公開文件、私有資產清單及限制。
   - [x] S3.03：Graphify 建置與來源定位；同步、Git 提交。
-  - 遠端 GitHub 建立／push：由使用者後續提供儲存庫，本次不發布。
+  - GitHub 交付：使用者已提供 `cocobird231/hermes-plugin-isaacsim-rviz2` 並授權建立 PR；僅推送本套件工作分支與版本 tag，合併由開發者核准。
 
-驗證紀錄：見 [跨機器部署驗證](docs/portability-validation.md) 與 [Graphify](docs/GRAPHIFY.md)。完整證據存於另外的私有資料夾。GitHub 尚未建立或發布。
+驗證紀錄：見 [跨機器部署驗證](docs/portability-validation.md) 與 [Graphify](docs/GRAPHIFY.md)。完整證據存於另外的私有資料夾；本儲存庫從遠端 `main` 建立獨立歷史，不包含上層專案的 Git 歷史。
