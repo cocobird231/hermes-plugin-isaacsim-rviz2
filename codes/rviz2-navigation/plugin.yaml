@@ -1,0 +1,25 @@
+name: rviz2-navigation
+version: 0.2.0-dev
+description: >-
+  Independent RViz2 and Nav2 management with a validated robot profile.
+  Configure URDF, map, frames, topics, footprint and the robot's own Nav2 parameters.
+  Agent selects goals; Nav2 plans paths and drives through a guarded Twist relay.
+  External ROS robots require no Isaac Sim; the RV1 simulator adapter is optional.
+author: MIRDC Project
+license: MIT
+provides_tools:
+  - rviz2_configure_robot
+  - rviz2_open
+  - rviz2_close
+  - rviz2_load_map
+  - rviz2_load_robot
+  - rviz2_navigation_start
+  - rviz2_navigation_status
+  - rviz2_set_initial_pose
+  - rviz2_set_goal
+  - rviz2_plan_path
+  - rviz2_navigate
+  - rviz2_cancel_navigation
+  - rviz2_navigation_stop
+provides_skills:
+  - rviz2-navigation

@@ -1,0 +1,69 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+    startTimeCode = 0
+    endTimeCode = 100000
+    timeCodesPerSecond = 60
+    framesPerSecond = 60
+)
+
+def Xform "World"
+{
+    def PhysicsScene "PhysicsScene" (
+        prepend apiSchemas = ["PhysxSceneAPI"]
+    )
+    {
+        uint physxScene:timeStepsPerSecond = 960
+        uniform token physxScene:solverType = "TGS"
+        vector3f physics:gravityDirection = (0, 0, -1)
+        float physics:gravityMagnitude = 9.81
+    }
+
+    def Cube "Ground" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 2
+        bool physics:collisionEnabled = true
+        color3f[] primvars:displayColor = [(0.18, 0.20, 0.22)]
+        double3 xformOp:translate = (0, 0, -0.1)
+        double3 xformOp:scale = (100, 100, 0.1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def DomeLight "DomeLight"
+    {
+        float inputs:intensity = 1000
+        color3f inputs:color = (1, 1, 1)
+    }
+
+    def Camera "OverviewCamera"
+    {
+        token projection = "perspective"
+        float focalLength = 24
+        float horizontalAperture = 20.955
+        float verticalAperture = 15.2908
+        float2 clippingRange = (0.1, 10000)
+        double3 xformOp:translate = (7, -7, 5.1)
+        float3 xformOp:rotateXYZ = (65, 0, 45)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    # The runtime authors the configured model reference in a generated copy.
+    def Xform "RV1"
+    {
+        double3 xformOp:translate = (0, 0, 0.8)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        over "rv1"
+        {
+            over "ActionGraph" (
+                active = false
+            )
+            {
+            }
+        }
+    }
+}

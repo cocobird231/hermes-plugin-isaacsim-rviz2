@@ -1,0 +1,27 @@
+{
+  "robot_id": "rv1",
+  "frames": {
+    "map": "map",
+    "odom": "odom",
+    "base": "base_link"
+  },
+  "topics": {
+    "map": "/map",
+    "odom": "/odom",
+    "cmd_vel": "/cmd_vel",
+    "joint_states": "/joint_states",
+    "robot_description": "/robot_description",
+    "clock": "/clock"
+  },
+  "use_sim_time": true,
+  "params_file": "configs/rv1_nav2_max_speed.yaml",
+  "localization_mode": "sim_truth",
+  "control_backend": "isaac_rv1",
+  "limits": {
+    "max_linear_mps": 2.5,
+    "max_yaw_rps": 0.5,
+    "command_timeout_seconds": 3.0,
+    "feedback_timeout_seconds": 5.0
+  },
+  "allow_lateral": false
+}
