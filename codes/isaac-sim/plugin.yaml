@@ -1,0 +1,25 @@
+name: isaac-sim
+version: 0.8.0-dev
+description: >-
+  Isaac Sim lifecycle, USD scenes, managed screenshots, occupancy-map and generic
+  articulated-robot URDF exports, plus the simulator-side RV1 ROS adapter.
+  RViz2 and goal-based Nav2 actions are provided by the independent rviz2-navigation plugin.
+  No Isaac or ROS dependencies are loaded inside Hermes. Read the bundled skill.
+author: MIRDC Project
+license: MIT
+provides_tools:
+  - isaac_sim_open
+  - isaac_sim_load_usd
+  - isaac_sim_play
+  - isaac_sim_stop
+  - isaac_sim_close
+  - isaac_sim_status
+  - isaac_sim_list_scripts
+  - isaac_sim_run_script
+  - isaac_sim_capture
+  - isaac_sim_export_occupancy_map
+  - isaac_sim_export_robot_urdf
+  - isaac_sim_export_status
+  - isaac_sim_prepare_rv1_ros2
+provides_skills:
+  - isaac-sim
