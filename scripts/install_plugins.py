@@ -19,6 +19,13 @@ from hermes_sim_config import ConfigError, PATH_FIELDS, _unique_object, defaults
 
 PLUGIN_NAMES = ("isaac-sim", "rviz2-navigation")
 REQUIRED = ("isaac_python", "gongguan_usd", "rv1_usd", "ros_python", "ros_setup", "screenshot_python", "hermes_cli")
+# Reference layout offered only for interactive confirmation, never runtime defaults.
+INTERACTIVE_PATH_DEFAULTS = {
+    "isaac_python": "/home/user/Workspace/env_isaacsim/bin/python",
+    "gongguan_usd": "/home/user/Workspace/scenes/10_gongguan_xinhai_rd_mesh-model.usdz",
+    "rv1_usd": "/home/user/Workspace/robots/rv1_odom_tuned.usd",
+    "hermes_cli": "/home/user/.local/bin/hermes",
+}
 
 
 def atomic_write(path, text, mode=0o600):
@@ -154,8 +161,9 @@ def install(args):
         if not data.get(key):
             if args.non_interactive or not sys.stdin.isatty():
                 raise ConfigError(f"Missing {key}; pass --{key.replace(chr(95), chr(45))} or provide it in --config")
-            value = input(label + " (absolute path): ").strip()
-            data[key] = os.path.abspath(Path(value).expanduser()) if value else ""
+            suggested = INTERACTIVE_PATH_DEFAULTS[key]
+            value = input(f"{label} (absolute path) [{suggested}]: ").strip() or suggested
+            data[key] = os.path.abspath(Path(value).expanduser())
     config = normalize_config(data, required=REQUIRED)
     for name in PLUGIN_NAMES:
         source = ROOT / "codes" / name

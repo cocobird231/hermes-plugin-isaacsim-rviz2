@@ -1,5 +1,14 @@
 # 跨機器部署驗證
 
+## v0.1.1 互動安裝預設值
+
+2026-11-10 在指定 SSH 測試主機的暫存套件副本及外部隔離 Hermes home 驗證：
+
+- `tests/test_installation.py`：26 passed；`tests/test_portable_scripts.py`：19 passed，合計 45 passed。
+- Enter 接受四項提示預設值、手動輸入覆寫、已存設定與 CLI 優先、無 TTY／非互動缺參數拒絕及缺檔不寫入均有回歸案例。
+- 真實 TTY 顯示 `/home/user` 參考布局；採用不存在的參考檔案時在寫入前失敗，改填測試主機實際路徑後成功完成隔離安裝。
+- 兩插件仍為手動啟用，正式 Hermes 設定與既有 plugin 連結前後一致。本次驗證未啟動 Isaac、RViz 或橋接服務，不代表在第二台設備完成模擬驗收。
+
 日期：2026-11-06。所有安裝、程式及模擬測試在指定 Linux／Isaac 測試主機執行。本次以不同 clone／Hermes home、含空白的資產路徑、獨立 state、替代 ports 與 DDS domain 驗證搬移；尚未在第二台實體電腦重跑。
 
 ## 完成範圍

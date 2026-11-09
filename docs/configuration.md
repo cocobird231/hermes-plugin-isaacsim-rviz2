@@ -4,8 +4,8 @@
 
 | 欄位 | 用途／一般預設 |
 | --- | --- |
-| `isaac_python` | 使用者提供的 Isaac Python／python.sh；不預設環境名稱 |
-| `gongguan_usd`、`rv1_usd` | 使用者提供的現存 USD 資產；缺少時要求設定 |
+| `isaac_python` | 使用者確認的 Isaac Python／python.sh；互動提示參考值為 `/home/user/Workspace/env_isaacsim/bin/python` |
+| `gongguan_usd`、`rv1_usd` | 使用者確認的現存 USD 資產；互動參考值見下表，執行期仍須明確設定 |
 | `ros_setup`、`ros_python` | ROS 環境與解譯器；預設 Jazzy setup 與系統 Python |
 | `screenshot_python` | 提供 GI／GDK 的 Python，預設系統 Python |
 | `display_number`、`xauthority` | 預設 display 1 與使用者 Xauthority；明確 display 工具參數優先 |
@@ -17,6 +17,17 @@
 | `hermes_cli`、`hermes_source` | CLI 可自動從 PATH／使用者安裝位置尋找；可選的工具證據 exporter 需要提供 Hermes 原始碼位置 |
 | `isaac_ros_lib_dir` | 可選的 Isaac 隨附 ROS library 目錄；未提供時按 Isaac 安裝結構探測 |
 | `schema_version` | 目前為 1 |
+
+`bash install.sh` 在 TTY 互動模式詢問尚未設定的必要路徑，按 Enter 採用下列參考值：
+
+| 欄位 | 互動參考預設值 |
+| --- | --- |
+| `isaac_python` | `/home/user/Workspace/env_isaacsim/bin/python` |
+| `gongguan_usd` | `/home/user/Workspace/scenes/10_gongguan_xinhai_rd_mesh-model.usdz` |
+| `rv1_usd` | `/home/user/Workspace/robots/rv1_odom_tuned.usd` |
+| `hermes_cli` | `/home/user/.local/bin/hermes`，只在未從設定或 PATH 取得 CLI 時提示 |
+
+帳號 `user` 為固定參考名稱，輸入其他路徑即可覆寫。這些值只供互動確認，不會成為 `load_config()` 的隱含執行期資產路徑；`--non-interactive` 或無 TTY 時仍須透過參數／設定提供缺少的路徑。既有設定及 CLI 參數優先，所有必要資源仍經檔案存在與可執行權限檢查。
 
 設定檔與 state／export 目錄不應位於公開 checkout；模型／地圖由使用者控制，程式不改寫來源資產。RV1 測試場景會在當次 session 內產生引用已設定模型的 wrapper。公館插入操作只改 session layer。
 
