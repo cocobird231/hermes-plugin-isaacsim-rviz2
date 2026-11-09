@@ -23,6 +23,17 @@ bash install.sh
 
 安裝器詢問 **Isaac Python／python.sh、公館 USD／USDZ、RV1 USD** 的實際路徑，驗證後保存到 `$HERMES_HOME/sim-plugins.json`；未設定 `HERMES_HOME` 時使用 `~/.hermes`。找不到 Hermes CLI 時也會詢問。不把個人路徑寫回 repository。
 
+初次互動安裝的提示提供以下參考預設值，帳號統一以 `user` 表示。按 Enter 採用括號中的值，或輸入該電腦的實際位置：
+
+| 提示 | 參考預設值 |
+| --- | --- |
+| Isaac Python／python.sh | `/home/user/Workspace/env_isaacsim/bin/python` |
+| 公館 USD／USDZ | `/home/user/Workspace/scenes/10_gongguan_xinhai_rd_mesh-model.usdz` |
+| RV1 USD | `/home/user/Workspace/robots/rv1_odom_tuned.usd` |
+| Hermes CLI（無法自動找到時） | `/home/user/.local/bin/hermes` |
+
+`user` 是參考帳號，不會自動替換成登入名稱；帳號或安裝位置不同時，請輸入正確路徑。既有設定與 CLI 參數優先，不會被參考值覆蓋。非互動安裝仍須提供必要路徑；所選檔案不存在或執行檔不可執行時，安裝會在寫入設定前停止。
+
 接著執行：
 
 ```bash

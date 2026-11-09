@@ -27,3 +27,11 @@
   - GitHub 交付：使用者已提供 `cocobird231/hermes-plugin-isaacsim-rviz2` 並授權建立 PR；僅推送本套件工作分支與版本 tag，合併由開發者核准。
 
 驗證紀錄：見 [跨機器部署驗證](docs/portability-validation.md) 與 [Graphify](docs/GRAPHIFY.md)。完整證據存於另外的私有資料夾；本儲存庫從遠端 `main` 建立獨立歷史，不包含上層專案的 Git 歷史。
+
+## 安裝提示修訂（2026-11-10）
+
+- [x] 依使用者要求提供 `/home/user` 參考路徑，互動 Enter 可採用。
+- [x] 保留既有設定／CLI 優先、非互動缺參數拒絕、必要資源驗證及手動啟用。
+- [x] 指定 SSH 測試主機完成 45 案與隔離 TTY 安裝，正式設定及插件連結不變。
+- [x] 更新 README、配置與驗證說明；標示既有 AST 索引在安裝器修改後的定位限制。
+- [ ] PR 審核及正式版本標籤；不覆寫 `v0.1.0`。

@@ -200,6 +200,75 @@ class InstallationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("Missing isaac_python", result.stderr)
         self.assertFalse(self.home.exists())
+        args = installer.parser().parse_args(["--non-interactive", "--config", str(self.input), "--hermes-home", str(self.home)])
+        with patch.dict(os.environ, self.env), patch.object(sys.stdin, "isatty", return_value=True), patch("builtins.input") as prompt, patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, self.data):
+            with self.assertRaisesRegex(config.ConfigError, "Missing isaac_python"):
+                installer.install(args)
+        prompt.assert_not_called()
+        self.assertFalse(self.home.exists())
+
+    def test_interactive_enter_saves_displayed_path_defaults(self):
+        paths = {key: self.data.pop(key) for key in ("isaac_python", "gongguan_usd", "rv1_usd", "hermes_cli")}
+        self.data.update(dict.fromkeys(paths, ""))
+        self.input.write_text(json.dumps(self.data))
+        args = installer.parser().parse_args(["--config", str(self.input), "--hermes-home", str(self.home)])
+        with patch.dict(os.environ, self.env), patch.object(sys.stdin, "isatty", return_value=True), patch("builtins.input", return_value="") as prompt, patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, paths), contextlib.redirect_stdout(io.StringIO()):
+            installer.install(args)
+        data = json.loads((self.home / "sim-plugins.json").read_text())
+        self.assertEqual(prompt.call_count, len(paths))
+        for (key, path), call in zip(paths.items(), prompt.call_args_list):
+            self.assertIn(f"[{path}]", call.args[0])
+            self.assertEqual(data[key], path)
+
+    def test_interactive_input_overrides_displayed_path_defaults(self):
+        paths = {key: self.data.pop(key) for key in ("isaac_python", "gongguan_usd", "rv1_usd", "hermes_cli")}
+        self.data.update(dict.fromkeys(paths, ""))
+        unused_defaults = {key: str(self.base / "unused" / Path(path).name) for key, path in paths.items()}
+        self.input.write_text(json.dumps(self.data))
+        args = installer.parser().parse_args(["--config", str(self.input), "--hermes-home", str(self.home)])
+        with patch.dict(os.environ, self.env), patch.object(sys.stdin, "isatty", return_value=True), patch("builtins.input", side_effect=list(paths.values())) as prompt, patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, unused_defaults), contextlib.redirect_stdout(io.StringIO()):
+            installer.install(args)
+        data = json.loads((self.home / "sim-plugins.json").read_text())
+        self.assertEqual(prompt.call_count, len(paths))
+        for key, path in paths.items():
+            self.assertEqual(data[key], path)
+
+    def test_interactive_missing_default_asset_fails_before_writes(self):
+        paths = {key: self.data.pop(key) for key in ("isaac_python", "gongguan_usd", "rv1_usd", "hermes_cli")}
+        self.data.update(dict.fromkeys(paths, ""))
+        self.scene.unlink()
+        self.input.write_text(json.dumps(self.data))
+        original = self.input.read_text()
+        args = installer.parser().parse_args(["--config", str(self.input), "--hermes-home", str(self.home)])
+        with patch.dict(os.environ, self.env), patch.object(sys.stdin, "isatty", return_value=True), patch("builtins.input", return_value=""), patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, paths):
+            with self.assertRaisesRegex(config.ConfigError, "gongguan_usd file does not exist"):
+                installer.install(args)
+        self.assertFalse(self.home.exists())
+        self.assertEqual(self.input.read_text(), original)
+
+    def test_saved_config_and_cli_paths_take_precedence_without_prompting(self):
+        alternate = self.base / "alternate python"
+        alternate.symlink_to(self.executable)
+        self.home.mkdir()
+        (self.home / "sim-plugins.json").write_text(json.dumps(self.data))
+        unused_defaults = {key: str(self.base / "unused" / key) for key in ("isaac_python", "gongguan_usd", "rv1_usd", "hermes_cli")}
+        args = installer.parser().parse_args(["--hermes-home", str(self.home), "--isaac-python", str(alternate)])
+        with patch.dict(os.environ, self.env, clear=True), patch.object(sys.stdin, "isatty", return_value=True), patch("builtins.input") as prompt, patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, unused_defaults), contextlib.redirect_stdout(io.StringIO()):
+            installer.install(args)
+        prompt.assert_not_called()
+        data = json.loads((self.home / "sim-plugins.json").read_text())
+        self.assertEqual(data["isaac_python"], str(alternate))
+        for key in ("gongguan_usd", "rv1_usd", "hermes_cli"):
+            self.assertEqual(data[key], self.data[key])
+
+    def test_missing_input_without_tty_does_not_select_defaults(self):
+        self.input.write_text("{}")
+        args = installer.parser().parse_args(["--config", str(self.input), "--hermes-home", str(self.home)])
+        with patch.dict(os.environ, self.env), patch.object(sys.stdin, "isatty", return_value=False), patch("builtins.input") as prompt, patch.dict(installer.INTERACTIVE_PATH_DEFAULTS, self.data):
+            with self.assertRaisesRegex(config.ConfigError, "Missing isaac_python"):
+                installer.install(args)
+        prompt.assert_not_called()
+        self.assertFalse(self.home.exists())
 
     def test_clone_relocation_with_spaces_works(self):
         relocated = self.base / "relocated clone with spaces"

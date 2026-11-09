@@ -4,6 +4,7 @@
 
 ## 來源與範圍
 
+- `v0.1.1` 安裝提示修訂：以下 AST 統計仍對應 `v0.1.0` 基底快照。`scripts/install_plugins.py` 新增 `INTERACTIVE_PATH_DEFAULTS` 並修改 `install()` 的互動提示，該檔舊索引行號不代表目前位置；查詢後須以相對檔名與 symbol 核對目前原始碼。此次沒有重建索引或改寫歷史統計。
 - 建立日期：2026-11-06，使用 Graphify 0.9.61，在本機執行 AST 抽取與圖分析。
 - 索引來源：最初建於私有開發工作區；獨立套件對應提交為 `862a001`，分支 `coco-codex/portable-hermes-plugins`。49 份來源與該提交逐一核對相同；後續文件與版本中繼資料更新不改變此 AST 快照，無須取得私有開發歷史。
 - 來源清單 SHA-256：`f8b6e0a03d02bfd52f22a0357a217e04cf30bcb6735e98c7e01d15358c6cca30`。
